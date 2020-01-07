@@ -8,8 +8,8 @@ end
 clear();
 N=5;
 prec=5.0;
-load('ATmaps.mat','AA');
-m=AA;
+load('Amaps.mat','m');
+
 ori = m(3).gps_origin;
 for i=1:5
     m(i)=change_origin(m(i),ori);

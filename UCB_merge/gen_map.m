@@ -1,5 +1,5 @@
 function [map,err] = gen_map(name,varargin)
-    gps = load([name,'T_gps.txt']);
+    gps = load([name,'_gps.txt']);
     rel = load([name,'_rel.txt']);
     pcd = pcread([name,'.pcd']);
     if nargin>=4

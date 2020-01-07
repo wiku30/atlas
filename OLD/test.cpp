@@ -4,26 +4,32 @@
 
 int main()
 {
-	kdt tree[10];
+	kdt tree[100];
 	atlas at;
-	for (int i = 1; i <= 5; i++)
+	int n;
+	string ser;
+	cout << "Enter series and number of maps" << endl;
+	cin >> ser >> n;
+	for (int i = 1; i <= n; i++)
 	{
-		string str1 = "tiles/map_";
-		str1 += ('0' + i);
+		string str1 = "tiles/";
+		str1 += ser;
+		str1 += to_string(i);
 		str1 += ".tile";
 		cout << str1 << endl;
 		//ifstream ifs(str1.c_str());
 		ifstream ifs(str1.c_str());
-		tree[i].init(ifs, 9);
+		tree[i].init(ifs, 12);
 		
-		string str2 = "trees/map_";
-		str2 += ('0' + i);
+		string str2 = "trees/";
+		str2 += ser;
+		str2 += to_string(i);
 		str2 += ".tree";
 		ofstream ofs(str2);
 		tree[i].save(ofs);
 		at.add(&tree[i]);
 	}
-
+	/*
 	ifstream ifs("trace/trace.txt");
 
 	zone z, zold;
@@ -44,6 +50,7 @@ int main()
 
 
 	}
+	*/
 
 
 
