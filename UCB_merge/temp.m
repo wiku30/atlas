@@ -1,5 +1,5 @@
 zone={}
-for k=1:5
+for k=1:6
     a=cell2mat(table{k}.keys);
     for i=1:size(a,2)
         [zone{k}(i,1),zone{k}(i,2)]=i2xy(a(i));
@@ -14,5 +14,6 @@ hold on
     scatter(zone{3}(:,1),zone{3}(:,2), 1, 'o');
     scatter(zone{4}(:,1),zone{4}(:,2), 1, '*');
     scatter(zone{5}(:,1),zone{5}(:,2), 1, '+');
+    scatter(zone{6}(:,1),zone{6}(:,2), 1);
     
     axis equal;

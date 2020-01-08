@@ -16,7 +16,7 @@ Denote DIR as the main directory of the data file.
 
 1. Use hdl_graph_slam to generate a point cloud map from a rosbag file with the save_map service, saved as e.g. *DIR/X1.pcd*, in which X is the series name and 1 is an integer index.
 2. Use the *hdl_graph_slam/dump* service to dump the odometry data to the directory *X1*.
-3. Parse the dump file via *DIR/UCB_ros/parse/dump_parse.cpp*, output in *X1_rel.txt*
+3. Parse the dump file via *DIR/UCB_ros/parse/dump_parse.cpp*, output in *DIR/X1_rel.txt*
 4. Extract the GPS topic (Type: NavSat/Fix) to a text file with rostopic echo -b, and parse it with *DIR/UCB_ros/parse/gps.cpp*, output in *DIR/X1_gps.txt*
 
 Now for each rosbag file of map Xi, we have the triple *DIR/{Xi.pcd, Xi_rel.txt, Xi_gps.txt}*. We assume i=1,2,3,4,5. (The indices must start from 1 and be continuous)
