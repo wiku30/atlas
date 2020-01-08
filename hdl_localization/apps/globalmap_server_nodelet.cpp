@@ -62,6 +62,8 @@ public:
 
   int map_num;
 
+  int submap_count;
+
   atlas Atl;
   std::vector<kdt> trees;
 
@@ -128,6 +130,8 @@ private:
     single_map = private_nh.param<bool>("single_map", "false");
 
     std::cout << "single map? " << single_map << std::endl;
+
+    submap_count = private_nh.param<int>("submap_count", 3);
 
 
 
@@ -252,6 +256,8 @@ private:
           int nnn = 0;
           vector<pcl::PointCloud<PointT>::Ptr> nowmap_ptr;
 
+          string name = "map";
+
           for (auto mp : sub_map.now_ids)
           {
               int idx = mp;
@@ -267,10 +273,15 @@ private:
 
               pclomp::NormalDistributionsTransform<PointT, PointT>::Ptr ndt(new pclomp::NormalDistributionsTransform<PointT, PointT>());
               ndt->setTransformationEpsilon(0.01);
-              ndt->setResolution(6);
+              ndt->setResolution(10);
               ndt->setNeighborhoodSearchMethod(pclomp::DIRECT1);
 
               Eigen::Matrix4f init_guess = Eigen::Matrix4f::Identity();
+
+              name += "_";
+              name += to_string((idx + 1));
+              
+
               if (nnn == 0)
               {
                   *globalmap += * nowmap_ptr[0];
@@ -281,14 +292,13 @@ private:
                       break;
                   }
               }
-              else
+              else if (nnn < submap_count)
               {
                   pcl::PointCloud<PointT>::Ptr aligned(new pcl::PointCloud<PointT>());
-                  ndt->setInputSource(nowmap_ptr[1]);
+                  ndt->setInputSource(nowmap_ptr[nnn]);
                   ndt->setInputTarget(nowmap_ptr[0]);
                   ndt->align(*aligned, init_guess);
                   *globalmap += *aligned;
-                  break;
               }
 
               
@@ -298,7 +308,12 @@ private:
           cout << endl;
           globalmap_pub.publish(globalmap);
 
-          pcl::io::savePCDFileASCII("/mnt/w/pcds/test_pcd.pcd", *globalmap);
+          name += ".pcd";
+
+          string pathh = "/mnt/w/pcds/";
+          pathh += name;
+
+          pcl::io::savePCDFileASCII(pathh, *globalmap);
 
       }
 

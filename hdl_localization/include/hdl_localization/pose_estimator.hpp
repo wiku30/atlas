@@ -167,8 +167,8 @@ public:
 	Eigen::Vector3f p = trans.block<3, 1>(0, 3);
     Eigen::Quaternionf q(trans.block<3, 3>(0, 0)); 
 
-	const double fitness_thres = 7.5;
-	const double deviation_thres = 15;
+	const double fitness_thres = 5;
+	const double deviation_thres = 20;
 
 	struct timeval start1, end1, start2, end2;
 
@@ -237,17 +237,18 @@ public:
 		  
 
 
-		  fitness = registration->getFitnessScore(15);
+		  fitness = registration->getFitnessScore();
 
 		  f_bad = fitness / fitness_thres;
 
 
-		  if ((GPS_ENABLED) && (f_bad + d_bad > 1 && f_bad > 0.2 && d_bad > 0.2 && (v_valid || ENABLE_SEARCH))) //Retrying without orientation is still under development.
+		  if ((GPS_ENABLED) && (f_bad + d_bad > 1 && f_bad > 0.12 && d_bad > 0.2 && (v_valid || ENABLE_SEARCH))) //Retrying without orientation is still under development.
 		  {
 			  std::cout << "*** Bad! (Fitness " << std::fixed << std::setprecision(2) << fitness <<", Deviation " << devabs << ")";
 
 			  init_guess = Eigen::Matrix4f::Identity();
 			  init_guess.block<3, 1>(0, 3) = Eigen::Vector3f(rel.x, rel.y, rel.z);
+			  //init_guess.block<3, 1>(0, 3) = Eigen::Vector3f(rel.x, rel.y, 0);
 			  int search_flag = 0;
 
 			  if (v_valid)

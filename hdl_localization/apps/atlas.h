@@ -25,13 +25,16 @@ struct submap //not finished
 		if (in.size() <= 3)
 		{
 			int to_update = 0;
+			int sz = in.size();
 			for (auto i : in)
 			{
 				int id = i.first;
 				to_update = 1;
+				int ser = 0;
 				for (auto now_id : now_ids)
 				{
-					if (now_id == id)
+					ser++;
+					if (now_id == id && (sz>1 || ser!=3))
 					{
 						to_update = 0;
 					}
